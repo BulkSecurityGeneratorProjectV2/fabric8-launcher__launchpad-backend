@@ -67,6 +67,9 @@ public class PathsTest {
             while (ze != null) {
                 String fileName = ze.getName();
                 File newFile = new File(outputFolder, fileName);
+               if (!newFile.toPath().normalize().startsWith(outputFolder.toPath().normalize())) {
+                  throw new RuntimeException("Bad zip entry");
+               }
                 newFile.getParentFile().mkdirs();
                 if (!ze.isDirectory()) {
                     Files.copy(zis, newFile.toPath());
